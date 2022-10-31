@@ -1,0 +1,28 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    container_name: mongodb
+
+  fill:
+    build: 
+      context: filling-service
+      dockerfile: .dockerfile
+    ports:
+      - "3000:3000"
+    container_name: filling-service
+    depends_on:
+      - mongodb
+
+  client:
+    build: 
+      context: client-service
+      dockerfile: .dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    container_name: user-service
+  
